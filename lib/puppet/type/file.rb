@@ -607,14 +607,14 @@ module Puppet
             end
 
             case s.ftype
-            when "directory"
+            when "directory";
                 if self[:force] == :true
                     debug "Removing existing directory for replacement with %s" % should
                     FileUtils.rmtree(self[:path])
                 else
                     notice "Not removing directory; use 'force' to override"
                 end
-            when "link", "file"
+            when "link", "file";
                 debug "Removing existing %s for replacement with %s" %
                     [s.ftype, should]
                 File.unlink(self[:path])
