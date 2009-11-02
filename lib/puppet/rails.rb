@@ -51,7 +51,7 @@ module Puppet::Rails
 
             socket          = Puppet[:dbsocket]
             args[:socket]   = socket unless socket.empty?
-	        
+          
             connections     = Puppet[:dbconnections].to_i
             args[:pool]     = connections if connections > 0 
         when "oracle_enhanced":
