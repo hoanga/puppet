@@ -120,10 +120,10 @@ module Puppet
             munge do |value|
                 newval = super(value)
                 case newval
-                when :true, :inf: true
-                when :false: false
-                when :remote: :remote
-                when Integer, Fixnum, Bignum:
+                when :true, :inf; true
+                when :false; false
+                when :remote; :remote
+                when Integer, Fixnum, Bignum;
                     self.warning "Setting recursion depth with the recurse parameter is now deprecated, please use recurselimit"
 
                     # recurse == 0 means no recursion
@@ -131,7 +131,7 @@ module Puppet
 
                     resource[:recurselimit] = value
                     true
-                when /^\d+$/:
+                when /^\d+$/;
                     self.warning "Setting recursion depth with the recurse parameter is now deprecated, please use recurselimit"
                     value = Integer(value)
 
@@ -154,8 +154,8 @@ module Puppet
             munge do |value|
                 newval = super(value)
                 case newval
-                when Integer, Fixnum, Bignum: value
-                when /^\d+$/: Integer(value)
+                when Integer, Fixnum, Bignum; value
+                when /^\d+$/; Integer(value)
                 else
                     raise ArgumentError, "Invalid recurselimit value %s" % value.inspect
                 end
@@ -613,14 +613,14 @@ module Puppet
             end
 
             case s.ftype
-            when "directory"
+            when "directory";
                 if self[:force] == :true
                     debug "Removing existing directory for replacement with %s" % should
                     FileUtils.rmtree(self[:path])
                 else
                     notice "Not removing directory; use 'force' to override"
                 end
-            when "link", "file"
+            when "link", "file";
                 debug "Removing existing %s for replacement with %s" %
                     [s.ftype, should]
                 File.unlink(self[:path])
