@@ -30,7 +30,7 @@ module Puppet
             isnamevar
 
             validate do |value|
-                unless value =~ /^#{File::SEPARATOR}/
+                unless value =~ /^#{::File::SEPARATOR}/
                     raise Puppet::Error, "File paths must be fully qualified, not '%s'" % value
                 end
             end
@@ -38,13 +38,13 @@ module Puppet
             # convert the current path in an index into the collection and the last
             # path name. The aim is to use less storage for all common paths in a hierarchy
             munge do |value|
-                path, name = File.split(value)
+                path, name = ::File.split(value)
                 { :index => Puppet::FileCollection.collection.index(path), :name => name }
             end
 
             # and the reverse
             unmunge do |value|
-                File.join( Puppet::FileCollection.collection.path(value[:index]), value[:name] )
+                ::File.join( Puppet::FileCollection.collection.path(value[:index]), value[:name] )
             end
         end
 
@@ -237,7 +237,7 @@ module Puppet
 
         # Autorequire any parent directories.
         autorequire(:file) do
-            basedir = File.dirname(self[:path])
+            basedir = ::File.dirname(self[:path])
             if basedir != self[:path]
                 basedir
             else
@@ -299,7 +299,7 @@ module Puppet
             Dir.entries(base).reject { |e|
                 e == "." or e == ".."
             }.each do |name|
-                path = File.join(base, name)
+                path = ::File.join(base, name)
                 if obj = self[path]
                     obj[:check] = :all
                     files << obj
@@ -318,7 +318,7 @@ module Puppet
         def asuser
             if self.should(:owner) and ! self.should(:owner).is_a?(Symbol)
                 writeable = Puppet::Util::SUIDManager.asuser(self.should(:owner)) {
-                    FileTest.writable?(File.dirname(self[:path]))
+                    FileTest.writable?(::File.dirname(self[:path]))
                 }
 
                 # If the parent directory is writeable, then we execute
@@ -418,7 +418,7 @@ module Puppet
         # Create a new file or directory object as a child to the current
         # object.
         def newchild(path)
-            full_path = File.join(self[:path], path)
+            full_path = ::File.join(self[:path], path)
 
             # Add some new values to our original arguments -- these are the ones
             # set at initialization.  We specifically want to exclude any param
@@ -623,7 +623,7 @@ module Puppet
             when "link", "file";
                 debug "Removing existing %s for replacement with %s" %
                     [s.ftype, should]
-                File.unlink(self[:path])
+                ::File.unlink(self[:path])
             else
                 self.fail "Could not back up files of type %s" % s.ftype
             end
@@ -690,7 +690,7 @@ module Puppet
             path = self[:path]
 
             begin
-                File.send(method, self[:path])
+                ::File.send(method, self[:path])
             rescue Errno::ENOENT => error
                 return nil
             rescue Errno::EACCES => error
@@ -724,7 +724,7 @@ module Puppet
             use_temporary_file = (content.length != 0)
             if use_temporary_file
                 path = "#{self[:path]}.puppettmp_#{rand(10000)}"
-                while File.exists?(path) or File.symlink?(path)
+                while ::File.exists?(path) or ::File.symlink?(path)
                     path = "#{self[:path]}.puppettmp_#{rand(10000)}"
                     end
               else
@@ -735,19 +735,19 @@ module Puppet
             umask = mode ? 000 : 022
 
             Puppet::Util.withumask(umask) do
-                File.open(path, File::CREAT|File::WRONLY|File::TRUNC, mode) { |f| f.print content }
+                ::File.open(path, ::File::CREAT|::File::WRONLY|::File::TRUNC, mode) { |f| f.print content }
             end
 
             # And put our new file in place
             if use_temporary_file # This is only not true when our file is empty.
                 begin
                     fail_if_checksum_is_wrong(path, checksum) if validate
-                    File.rename(path, self[:path])
+                    ::File.rename(path, self[:path])
                 rescue => detail
                     fail "Could not rename temporary file %s to %s : %s" % [path, self[:path], detail]
                 ensure
                     # Make sure the created file gets removed
-                    File.unlink(path) if FileTest.exists?(path)
+                    ::File.unlink(path) if FileTest.exists?(path)
                 end
             end
 
