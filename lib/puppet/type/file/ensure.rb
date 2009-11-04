@@ -159,7 +159,13 @@ module Puppet
         end
 
         def retrieve
-            if stat = @resource.stat(false)
+            if ::RUBY_VERSION =~ /1.9/
+              stat = @resource.stat
+            else
+              stat = @resource.stat(false)
+            end
+
+            if stat
                 return stat.ftype.intern
             else
                 if self.should == :false
