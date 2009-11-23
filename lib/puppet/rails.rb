@@ -58,7 +58,7 @@ module Puppet::Rails
           
             connections     = Puppet[:dbconnections].to_i
             args[:pool]     = connections if connections > 0 
-        when "oracle_enhanced":
+        when "oracle_enhanced"
 	        args[:database] = Puppet[:dbname] unless Puppet[:dbname].empty?
 	        args[:username] = Puppet[:dbuser] unless Puppet[:dbuser].empty?
 	        args[:password] = Puppet[:dbpassword] unless Puppet[:dbpassword].empty?
