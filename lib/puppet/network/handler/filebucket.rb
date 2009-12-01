@@ -11,10 +11,9 @@ class Puppet::Network::Handler # :nodoc:
         desc "The interface to Puppet's FileBucket system.  Can be used to store
         files in and retrieve files from a filebucket."
 
-        @interface = XMLRPC::Service::Interface.new("puppetbucket") { |iface|
-            iface.add_method("string addfile(string, string)")
-            iface.add_method("string getfile(string)")
-        }
+        @interface = XMLRPC::Service::Interface.new("puppetbucket") {}
+        @interface.add_method("string addfile(string, string)")
+        @interface.add_method("string getfile(string)")
 
         Puppet::Util.logmethods(self, true)
         attr_reader :name, :path

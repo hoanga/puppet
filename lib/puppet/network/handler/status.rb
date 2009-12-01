@@ -4,9 +4,8 @@ class Puppet::Network::Handler
 
         side :client
 
-        @interface = XMLRPC::Service::Interface.new("status") { |iface|
-            iface.add_method("int status()")
-        }
+        @interface = XMLRPC::Service::Interface.new("status") {}
+        @interface.add_method("int status()")
 
         def status(client = nil, clientip = nil)
             return 1

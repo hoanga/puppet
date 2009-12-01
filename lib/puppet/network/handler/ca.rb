@@ -14,9 +14,8 @@ class Puppet::Network::Handler
         the CA certificate and the signed certificate, or returns nil if
         the cert is not signed."
 
-        @interface = XMLRPC::Service::Interface.new("puppetca") { |iface|
-            iface.add_method("array getcert(csr)")
-        }
+        @interface = XMLRPC::Service::Interface.new("puppetca") {}
+        @interface.add_method("array getcert(csr)")
 
         def autosign
             if defined? @autosign

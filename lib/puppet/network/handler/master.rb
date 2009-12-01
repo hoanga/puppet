@@ -16,10 +16,9 @@ class Puppet::Network::Handler
         attr_accessor :ast
         attr_reader :ca
 
-        @interface = XMLRPC::Service::Interface.new("puppetmaster") { |iface|
-                iface.add_method("string getconfig(string)")
-                iface.add_method("int freshness()")
-        }
+        @interface = XMLRPC::Service::Interface.new("puppetmaster") {}
+        @interface.add_method("string getconfig(string)")
+        @interface.add_method("int freshness()")
 
         # Tell a client whether there's a fresh config for it
         def freshness(client = nil, clientip = nil)

@@ -6,9 +6,8 @@ class Puppet::Network::Handler
     class Runner < Handler
         desc "An interface for triggering client configuration runs."
 
-        @interface = XMLRPC::Service::Interface.new("puppetrunner") { |iface|
-            iface.add_method("string run(string, string)")
-        }
+        @interface = XMLRPC::Service::Interface.new("puppetrunner") {}
+        @interface.add_method("string run(string, string)")
 
         side :client
 

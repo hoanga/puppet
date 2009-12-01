@@ -6,9 +6,8 @@ class Puppet::Network::Handler
     class Report < Handler
         desc "Accepts a Puppet transaction report and processes it."
 
-        @interface = XMLRPC::Service::Interface.new("puppetreports") { |iface|
-            iface.add_method("string report(array)")
-        }
+        @interface = XMLRPC::Service::Interface.new("puppetreports") {}
+        @interface.add_method("string report(array)")
 
         # Add a new report type.
         def self.newreport(name, options = {}, &block)

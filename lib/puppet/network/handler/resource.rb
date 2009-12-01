@@ -16,11 +16,10 @@ class Puppet::Network::Handler
 
         attr_accessor :local
 
-        @interface = XMLRPC::Service::Interface.new("resource") { |iface|
-            iface.add_method("string apply(string, string)")
-            iface.add_method("string describe(string, string, array, array)")
-            iface.add_method("string list(string, array, string)")
-        }
+        @interface = XMLRPC::Service::Interface.new("resource") {}
+        @interface.add_method("string apply(string, string)")
+        @interface.add_method("string describe(string, string, array, array)")
+        @interface.add_method("string list(string, array, string)")
 
         side :client
 
