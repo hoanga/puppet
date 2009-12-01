@@ -99,7 +99,13 @@ module Puppet
                 end
             end
 
-            unless stat = @resource.stat(false)
+            if ::RUBY_VERSION =~ /1.9/
+              stat = @resource.stat
+            else
+              stat = @resource.stat(false)
+            end
+
+            unless stat
                 return :absent
             end
 

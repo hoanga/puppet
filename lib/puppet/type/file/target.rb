@@ -63,7 +63,13 @@ module Puppet
 
 
         def retrieve
-            if stat = @resource.stat
+            if ::RUBY_VERSION =~ /1.9/
+              stat = @resource.stat
+            else
+              stat = @resource.stat(false)
+            end
+
+            if stat
                 if stat.ftype == "link"
                     return File.readlink(@resource[:path])
                 else
