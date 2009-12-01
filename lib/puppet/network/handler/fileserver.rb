@@ -22,11 +22,10 @@ class Puppet::Network::Handler
         MODULES = "modules"
         PLUGINS = "plugins"
 
-        @interface = XMLRPC::Service::Interface.new("fileserver") { |iface|
-            iface.add_method("string describe(string, string)")
-            iface.add_method("string list(string, string, boolean, array)")
-            iface.add_method("string retrieve(string, string)")
-        }
+        @interface = XMLRPC::Service::Interface.new("fileserver") {}
+        @interface.add_method("string describe(string, string)")
+        @interface.add_method("string list(string, string, boolean, array)")
+        @interface.add_method("string retrieve(string, string)")
 
         def self.params
             CHECKPARAMS.dup

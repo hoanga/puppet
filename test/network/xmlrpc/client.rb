@@ -27,9 +27,8 @@ class TestXMLRPCClient < Test::Unit::TestCase
         # Create a test handler
         klass = Puppet::Network::XMLRPCClient
         yay = Class.new(Puppet::Network::Handler) do
-            @interface = XMLRPC::Service::Interface.new("yay") { |iface|
-                iface.add_method("array getcert(csr)")
-            }
+            @interface = XMLRPC::Service::Interface.new("yay") {}
+            @interface.add_method("array getcert(csr)")
 
             @name = :Yay
         end
