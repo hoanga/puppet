@@ -62,7 +62,13 @@ module Puppet
         end
 
         def retrieve
-            return :absent unless stat = resource.stat(false)
+            if ::RUBY_VERSION =~ /1.9/
+              stat = resource.stat
+            else
+              stat = resource.stat(false)
+            end
+
+            return :absent unless stat
 
             currentvalue = stat.gid
 
