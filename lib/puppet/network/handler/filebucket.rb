@@ -91,7 +91,7 @@ class Puppet::Network::Handler # :nodoc:
             # Make the directories if necessary.
             unless FileTest.directory?(bpath)
                 Puppet::Util.withumask(0007) do
-                    FileUtils.mkdir_p(bpath)
+                    Puppet::Util::SUIDManager.asuser('root') { FileUtils.mkdir_p(bpath) }
                 end
             end
 
