@@ -60,6 +60,11 @@ Puppet::Type.type(:ssh_authorized_key).provide(:parsed,
             Dir.mkdir(dir, dir_perm)
             File.chown(uid, nil, dir)
         end
+        # Ugly-hack to get around the fact that calling the super() method
+        # when file backup is run will fail in trying to create a dir entry
+        # in the clientbucket.  By calling super() here, the entry in the
+        # clientbucket can be made properly
+        super
         Puppet::Util::SUIDManager.asuser(@resource.should(:user)) { super }
         File.chown(uid, nil, target)
         File.chmod(file_perm, target)
